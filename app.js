@@ -5,6 +5,7 @@ var logger = require('morgan');
 
 
 const db = require('./database');
+
 const bcrypt = require('bcryptjs');
 const basicAuth = require('express-basic-auth');
 
@@ -12,8 +13,7 @@ const basicAuth = require('express-basic-auth');
 var app = express();
 
 app.use(basicAuth({users: { 'admin': '1234' }}));
-
-app.use(basicAuth( { authorizer: myAuthorizer, authorizeAsync:true, } ))
+//app.use(basicAuth( { authorizer: myAuthorizer, authorizeAsync:true, } ))
 
 
 app.use(logger('dev'));
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//
+
 module.exports = app;
 
 const helmet = require('helmet');
@@ -36,6 +36,9 @@ app.use('/book', bookRouter);
 
 const userRouter = require('./routes/user');
 app.use('/user', userRouter);
+
+const borrowerRouter = require('./routes/borrower');
+app.use('/borrower', borrowerRouter);
 
 
 function myAuthorizer(username, password,cb){
@@ -67,4 +70,6 @@ function myAuthorizer(username, password,cb){
         }
       }
     );
+    
   }
+  

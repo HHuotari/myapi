@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const user = require('../models/user_model');
+const borrower = require('../models/borrower_model');
 
 router.get('/:id?',
  function(request, response) {
   if (request.params.id) {
-    user.getById(request.params.id, function(err, dbResult) {
+    borrower.getById(request.params.id, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -13,7 +13,7 @@ router.get('/:id?',
       }
     });
   } else {
-    user.get(function(err, dbResult) {
+    borrower.getAll(function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
@@ -22,24 +22,27 @@ router.get('/:id?',
     });
   }
 });
+
+
 router.post('/', 
 function(request, response) {
-  user.add(request.body, function(err, count) {
+  borrower.add(request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
-      response.json(request.body); 
+      response.json(request.body);
     }
   });
 });
 
+
 router.delete('/:id', 
 function(request, response) {
-  user.delete(request.params.id, function(err, count) {
+  borrower.delete(request.params.id, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
-      response.json(count);
+      response.json(dbResult);
     }
   });
 });
@@ -47,7 +50,7 @@ function(request, response) {
 
 router.put('/:id', 
 function(request, response) {
-  user.update(request.params.id, request.body, function(err, dbResult) {
+  borrower.update(request.params.id, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {

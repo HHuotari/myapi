@@ -1,5 +1,5 @@
 const db = require('../database');
-//
+
 const book = {
   getById: function(id, callback) {
     return db.query('select * from book where id_book=?', [id], callback);
